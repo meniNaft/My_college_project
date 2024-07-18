@@ -1,4 +1,5 @@
 ﻿using My_college_project.Models;
+using My_college_project.Models.Entities;
 using My_college_project.Models.Enums;
 using My_college_project.Services;
 using ReaLTaiizor.Forms;
@@ -45,6 +46,7 @@ namespace My_college_project.Forms
                 }
                 else
                 {
+                    LoadCourseListItem();
                     materialLabel_hourly_wage.Visible = false;
                     materialTextBox_hourly_wage.Visible = false;
                     materialLabel_myCourses.Visible = true;
@@ -55,31 +57,45 @@ namespace My_college_project.Forms
 
         private void LoadCourseListItem()
         {
+            ManagerService.LoadStudentCourses();
+            if (ManagerService.UserCourses != null)
+            {
+                int PanelHeight = 10; 
+                foreach (Course course in ManagerService.UserCourses)
+                {
+                    Panel panel_courseItem = new Panel();
+                    panel_courseItem.AutoScroll = true;
+                    panel_courseItem.BorderStyle = BorderStyle.Fixed3D;
+                    panel_courseItem.Name = "item";
+                    panel_courseItem.Size = new Size(250, 200);
+                    panel_courseItem.Location = new Point(10, PanelHeight);
+                    panel_courseItem.TabIndex = 17;
+                    panel_courseItem.Visible = true;
+                    panel_courseItem.RightToLeft = RightToLeft.Yes;
+                    PanelHeight += 200;
 
-            Panel panel_courseItem = new Panel();
-            panel_courseItem.AutoScroll = true;
-            panel_courseItem.BorderStyle = BorderStyle.Fixed3D;
-            //panel_courseItem.Location = new Point(677, 174);
-            panel_courseItem.Name = "item";
-            panel_courseItem.Size = new Size(250, 200);
-            panel_courseItem.TabIndex = 17;
-            panel_courseItem.Visible = true;
-            panel_courseItem.RightToLeft = RightToLeft.Yes;
 
-            Label l = new Label();
-            l.Location = new Point(10, 10);
-            l.Font = new Font("Arial", 12, FontStyle.Bold);
-            l.Text = "שם הקורס";
-            Label l1 = new Label();
-            l1.Text = "נושא: הקדמה";
-            l1.Location = new Point(10, 30);
-            Label l2 = new Label();
-            l2.Location = new Point(10, 50);
-            l2.Text = "נושא: הקדמה2";
-            Label l3 = new Label();
-            l3.Location = new Point(10, 70);
-            l3.Text = "נושא: הקדמה3";
-            panel_courseItem.Controls.AddRange([l, l1, l2, l3]);
+                    Label l = new Label();
+                    l.Location = new Point(10, 10);
+                    l.Font = new Font("Arial", 12, FontStyle.Bold);
+                    l.Text = "שם הקורס";
+                    Label l1 = new Label();
+                    l1.Font = new Font("Arial", 10, FontStyle.Bold);
+                    l1.Text = "נושאים";
+                    l1.Location = new Point(10, 30);
+                    int height = 50;
+                    panel_courseItem.Controls.AddRange([l, l1]);
+                    foreach (var s in course.Subjects)
+                    {
+                        Label new_s = new Label();
+                        new_s.Location = new Point(10, height);
+                        new_s.Text = s.Name;
+                        height += 20;
+                        panel_courseItem.Controls.Add(new_s);
+                    }
+                    panel_courseList.Controls.Add(panel_courseItem);
+                }
+            }
         }
 
         private void labelBtn_login_Click(object sender, EventArgs e)

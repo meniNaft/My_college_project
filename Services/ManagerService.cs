@@ -10,6 +10,7 @@ namespace My_college_project.Services
     static internal class ManagerService
     {
         public static User? User = null;
+        public static List<Course>? UserCourses = null;
         static public bool Login(string username, string password)
         {
             SqlParameter[] sqlParams =
@@ -71,6 +72,34 @@ namespace My_college_project.Services
                 default:
                     throw new Exception("no role to user");
             }
+        }
+
+        public static void LoadStudentCourses()
+        {
+            List<Course> myCourses = new List<Course>();
+
+            string CourseQuery = $"select c.* from users u inner join students_cards sc on sc.user_id = u.id inner join card_rows cr on cr.card_id = sc.id inner join courses c on c.id = cr.course_id inner join subjects s on s.course_id = c.id where u.id = {User.Id}";
+            DataTable courses = DbContext.AdapterQuery(CourseQuery, null);
+            if( courses.Rows.Count > 0)
+            {
+                foreach (DataRow item in courses.Rows)
+                {
+                    Course newCourse = new Course(item);
+                    string SubjectQuery = $"select * from subjects where course_id = {newCourse.Id}";
+                    DataTable sdt = DbContext.AdapterQuery(SubjectQuery, null);
+                    if( sdt.Rows.Count > 0)
+                    {
+                        foreach (DataRow srow in sdt.Rows)
+                        {
+                            Subject newSubject = new Subject(srow);
+                            newCourse.Subjects.Add(newSubject);
+                        }
+                    }
+                     myCourses.Add(newCourse);
+                }
+            }
+
+            UserCourses = myCourses;
         }
     }
 }
