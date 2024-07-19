@@ -18,7 +18,16 @@ namespace My_college_project.Services
                 new SqlParameter("@username", username),
                 new SqlParameter("@password", password)
             ];
-            string selectQuery = "select u.id, u.name, u.address,u.phone, u.username , u.password, r.role_name from users u inner join roles r on r.id = u.role_id where u.username = @username and u.password = @password";
+            string selectQuery = @"
+select u.id, u.name, u.address,u.phone, u.username , u.password, r.role_name,sum(c.price) - sum(cr.amount_paid) as 'amount_to_pay'
+from users u
+inner join roles r on r.id = u.role_id
+left join students_cards sc on sc.user_id = u.id
+left join card_rows cr on cr.card_id = sc.id
+left join courses c on c.id = cr.course_id
+where u.username = @username and u.password = @password 
+group by u.id, u.name, u.address,u.phone, u.username , u.password, r.role_name
+";
             DataTable res = DbContext.AdapterQuery(selectQuery, sqlParams);
             if (res.Rows.Count> 0)
             {
@@ -78,7 +87,7 @@ namespace My_college_project.Services
         {
             List<Course> myCourses = new List<Course>();
 
-            string CourseQuery = $"select c.* from users u inner join students_cards sc on sc.user_id = u.id inner join card_rows cr on cr.card_id = sc.id inner join courses c on c.id = cr.course_id inner join subjects s on s.course_id = c.id where u.id = {User.Id}";
+            string CourseQuery = $"select c.*, c.price - cr.amount_paid as 'need_to_pay' from users u inner join students_cards sc on sc.user_id = u.id inner join card_rows cr on cr.card_id = sc.id inner join courses c on c.id = cr.course_id inner join subjects s on s.course_id = c.id where u.id = {User.Id}";
             DataTable courses = DbContext.AdapterQuery(CourseQuery, null);
             if( courses.Rows.Count > 0)
             {
@@ -100,6 +109,48 @@ namespace My_college_project.Services
             }
 
             UserCourses = myCourses;
+        }
+
+        internal static int create(string name, string address, string username, string password, string phone)
+        {
+            SqlParameter[] sqlParams =
+         [
+               new SqlParameter("@name", name),
+               new SqlParameter("@address", address),
+               new SqlParameter("@phone", phone),
+               new SqlParameter("@username", username),
+               new SqlParameter("@password", password),
+           ];
+            string query = "INSERT INTO users(name, address, phone, username, password, role_id) VALUES (@name, @address, @phone, @username, @password, 3)";
+            int affectedRows = DbContext.NoneQuery(query, sqlParams);
+            if (affectedRows > 0) {
+                LoadUserByName(name);
+            }
+            return affectedRows;
+        }
+
+        internal static void LoadUserByName(string name)
+        {
+            string query = $@"
+select u.id, u.name, u.address,u.phone, u.username , u.password, r.role_name,sum(c.price) - sum(cr.amount_paid) as 'amount_to_pay'
+from users u
+inner join roles r on r.id = u.role_id
+left join students_cards sc on sc.user_id = u.id
+left join card_rows cr on cr.card_id = sc.id
+left join courses c on c.id = cr.course_id
+where name = '{name}' 
+group by u.id, u.name, u.address,u.phone, u.username , u.password, r.role_name
+";
+            DataTable dt = DbContext.AdapterQuery(query, null);
+            if (dt.Rows.Count > 0)
+            {
+                User = new User(dt.Rows[0]);
+            }
+        }
+
+        internal static bool payForCourse(Course currentCourse, double amount)
+        {
+            throw new NotImplementedException();
         }
     }
 }

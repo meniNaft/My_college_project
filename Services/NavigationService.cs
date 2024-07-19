@@ -21,7 +21,6 @@ namespace My_college_project.Services
             Form result = formToShow switch
             {
                 FormsEnum.LOGIN_FORM => new LoginForm(),
-                FormsEnum.GUEST_FORM => new GuestForm(),
                 FormsEnum.REGISTRATION_FORM => new RegistrationForm(),
                 FormsEnum.USER_DETAILS_FORM => new UserDetailsForm(),
                 FormsEnum.MANAGEMENT_FORM => new ManagementForm(),

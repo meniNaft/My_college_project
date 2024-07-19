@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Data;
 
 namespace My_college_project.Models.Entities
 {
@@ -30,6 +25,7 @@ namespace My_college_project.Models.Entities
             Price = (double)row["price"];
             IsActive = (bool)row["is_active"];
             Subjects = new List<Subject>();
+            NeedToPay = (double)row["need_to_pay"];
         }
 
         public int Id { get; set; }
@@ -40,5 +36,6 @@ namespace My_college_project.Models.Entities
         public double Price { get; set; }
         public bool IsActive { get; set; }
         public List<Subject> Subjects { get; set; }
+        public double? NeedToPay  { get; set; }
     }
 }

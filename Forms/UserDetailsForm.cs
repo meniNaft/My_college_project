@@ -8,10 +8,15 @@ namespace My_college_project.Forms
 {
     public partial class UserDetailsForm : MaterialForm
     {
+        Form prompt;
+        Label textLabel_dialog;
+        TextBox textBox_dialog;
+        Button confirmation;
         public UserDetailsForm()
         {
             InitializeComponent();
             LoadUserData();
+            GenerateDialogForm();
         }
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
@@ -43,6 +48,9 @@ namespace My_college_project.Forms
                     materialTextBox_hourly_wage.Visible = true;    
                     materialLabel_myCourses.Visible = false;
                     panel_courseList.Visible = false;
+                    labelBtn_payment.Visible = false;
+                    materialLabel_payment.Visible = false;
+                    materialTextBox_payment.Visible = false;
                 }
                 else
                 {
@@ -51,6 +59,10 @@ namespace My_college_project.Forms
                     materialTextBox_hourly_wage.Visible = false;
                     materialLabel_myCourses.Visible = true;
                     panel_courseList.Visible = true;
+                    labelBtn_payment.Visible = true;
+                    materialLabel_payment.Visible = true;
+                    materialTextBox_payment.Visible = true;
+                    materialTextBox_payment.Text = ManagerService.User.AmountToPay.ToString();
                 }
             }
         }
@@ -63,32 +75,63 @@ namespace My_college_project.Forms
                 int PanelHeight = 10; 
                 foreach (Course course in ManagerService.UserCourses)
                 {
-                    Panel panel_courseItem = new Panel();
-                    panel_courseItem.AutoScroll = true;
-                    panel_courseItem.BorderStyle = BorderStyle.Fixed3D;
-                    panel_courseItem.Name = "item";
-                    panel_courseItem.Size = new Size(250, 200);
-                    panel_courseItem.Location = new Point(10, PanelHeight);
-                    panel_courseItem.TabIndex = 17;
-                    panel_courseItem.Visible = true;
-                    panel_courseItem.RightToLeft = RightToLeft.Yes;
+                    Panel panel_courseItem = new Panel
+                    {
+                        AutoScroll = true,
+                        BorderStyle = BorderStyle.Fixed3D,
+                        Name = "item",
+                        Size = new Size(300, 200),
+                        Location = new Point(10, PanelHeight),
+                        TabIndex = 17,
+                        Visible = true,
+                        RightToLeft = RightToLeft.Yes
+                    };
+                   
                     PanelHeight += 200;
+                    Label lCourseName = new Label
+                    {
+                        Location = new Point(100, 10),
+                        Font = new Font("Arial", 12, FontStyle.Bold),
+                        Text = course.Name
+                    };
+                   
+                    Label lPrice = new Label {
+                        Font = new Font("Arial", 10, FontStyle.Bold),
+                        Text = $"מחיר: {course.Price}",
+                        Location = new Point(180, 50)
+                    };
+                    
+                    Label lSubjectsTitle = new Label
+                    {
+                        Font = new Font("Arial", 10, FontStyle.Bold),
+                        Text = "נושאים",
+                        Location = new Point(180, 70)
+                    };
+
+                    Label labelBtn_pay = new Label
+                    {
+                        AutoSize = true,
+                        BackColor = Color.RoyalBlue,
+                        Font = new Font("Segoe UI", 10F),
+                        ForeColor = Color.White,
+                        Location = new Point(50, 50),
+                        Name = "labelBtn_update",
+                        Size = new Size(80, 20),
+                        TabIndex = 10,
+                        Text = "תשלום",
+                        TextAlign = ContentAlignment.MiddleCenter,
+                        Tag = course,
+                    };
+                    labelBtn_pay.Click += PayPerCourse;
+                 
 
 
-                    Label l = new Label();
-                    l.Location = new Point(10, 10);
-                    l.Font = new Font("Arial", 12, FontStyle.Bold);
-                    l.Text = "שם הקורס";
-                    Label l1 = new Label();
-                    l1.Font = new Font("Arial", 10, FontStyle.Bold);
-                    l1.Text = "נושאים";
-                    l1.Location = new Point(10, 30);
-                    int height = 50;
-                    panel_courseItem.Controls.AddRange([l, l1]);
+                    int height = 100;
+                    panel_courseItem.Controls.AddRange([lCourseName, lPrice, lSubjectsTitle, labelBtn_pay]);
                     foreach (var s in course.Subjects)
                     {
                         Label new_s = new Label();
-                        new_s.Location = new Point(10, height);
+                        new_s.Location = new Point(180, height);
                         new_s.Text = s.Name;
                         height += 20;
                         panel_courseItem.Controls.Add(new_s);
@@ -98,7 +141,7 @@ namespace My_college_project.Forms
             }
         }
 
-        private void labelBtn_login_Click(object sender, EventArgs e)
+        private void labelBtn_update_Click(object sender, EventArgs e)
         {
             string name = materialTextBox_name.Text;
             string address = materialTextBox_address.Text;
@@ -134,6 +177,44 @@ namespace My_college_project.Forms
         {
             ManagerService.User = null;
             NavigationService.ShowForm(FormsEnum.LOGIN_FORM);
+        }
+
+        private void PayPerCourse(object sender, EventArgs e)
+        {
+            prompt.Text = "תשלום יתרה";
+            Course currentCourse = (Course)((Label)sender).Tag;
+            textLabel_dialog.Text = $"הזן סכום לתשלום עד {currentCourse.NeedToPay}";
+            if (prompt.ShowDialog() == DialogResult.OK)
+            {
+                string input = textLabel_dialog.Text;
+                if (double.TryParse(input, out double amount) && amount > 0 && amount < currentCourse.NeedToPay)
+                {
+                    bool res = ManagerService.payForCourse(currentCourse, amount);
+                }
+                else
+                {
+                    MessageBox.Show("הסכום לא תקין");
+                }
+            }
+        }
+        private void GenerateDialogForm()
+        {
+            prompt = new Form()
+            {
+                Width = 500,
+                Height = 200,
+                FormBorderStyle = FormBorderStyle.FixedDialog,
+                Text = "",
+                StartPosition = FormStartPosition.CenterScreen
+            };
+            Label textLabel_dialog = new Label() { Left = 50, Top = 20, Text = "" };
+            TextBox textBox_dialog = new TextBox() { Left = 50, Top = 50, Width = 400 };
+            Button confirmation = new Button() { Text = "Ok", Left = 200, Height = 30, Width = 100, Top = 100, DialogResult = DialogResult.OK };
+            confirmation.Click += (sender, e) => { prompt.Close(); };
+            prompt.Controls.Add(textBox_dialog);
+            prompt.Controls.Add(confirmation);
+            prompt.Controls.Add(textLabel_dialog);
+            prompt.AcceptButton = confirmation;
         }
     }
 }

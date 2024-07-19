@@ -39,9 +39,9 @@ namespace My_college_project
             
         }
 
-        private void labelBtn_loginAsGuest_Click(object sender, EventArgs e)
+        private void labelBtn_registration_Click(object sender, EventArgs e)
         {
-            NavigationService.ShowForm(FormsEnum.GUEST_FORM);
+            NavigationService.ShowForm(FormsEnum.REGISTRATION_FORM);
         }
 
         protected override void OnFormClosing(FormClosingEventArgs e)

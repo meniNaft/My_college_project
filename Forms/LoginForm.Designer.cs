@@ -34,7 +34,7 @@
             materialTextBox_password = new ReaLTaiizor.Controls.MaterialTextBoxEdit();
             materialLabel_password = new ReaLTaiizor.Controls.MaterialLabel();
             labelBtn_login = new Label();
-            labelBtn_loginAsGuest = new Label();
+            labelBtn_registration = new Label();
             SuspendLayout();
             // 
             // materialLabel_mainTitle
@@ -147,31 +147,31 @@
             labelBtn_login.Name = "labelBtn_login";
             labelBtn_login.Size = new Size(200, 41);
             labelBtn_login.TabIndex = 5;
-            labelBtn_login.Text = "היכנס";
+            labelBtn_login.Text = "כניסה";
             labelBtn_login.TextAlign = ContentAlignment.MiddleCenter;
             labelBtn_login.Click += labelBtn_login_Click;
             // 
             // labelBtn_loginAsGuest
             // 
-            labelBtn_loginAsGuest.AutoSize = true;
-            labelBtn_loginAsGuest.BackColor = Color.RoyalBlue;
-            labelBtn_loginAsGuest.Font = new Font("Segoe UI", 18F);
-            labelBtn_loginAsGuest.ForeColor = Color.White;
-            labelBtn_loginAsGuest.Location = new Point(317, 497);
-            labelBtn_loginAsGuest.MinimumSize = new Size(200, 40);
-            labelBtn_loginAsGuest.Name = "labelBtn_loginAsGuest";
-            labelBtn_loginAsGuest.Size = new Size(200, 41);
-            labelBtn_loginAsGuest.TabIndex = 6;
-            labelBtn_loginAsGuest.Text = "היכנס כאורח";
-            labelBtn_loginAsGuest.TextAlign = ContentAlignment.MiddleCenter;
-            labelBtn_loginAsGuest.Click += labelBtn_loginAsGuest_Click;
+            labelBtn_registration.AutoSize = true;
+            labelBtn_registration.BackColor = Color.RoyalBlue;
+            labelBtn_registration.Font = new Font("Segoe UI", 18F);
+            labelBtn_registration.ForeColor = Color.White;
+            labelBtn_registration.Location = new Point(317, 497);
+            labelBtn_registration.MinimumSize = new Size(200, 40);
+            labelBtn_registration.Name = "labelBtn_loginAsGuest";
+            labelBtn_registration.Size = new Size(200, 41);
+            labelBtn_registration.TabIndex = 6;
+            labelBtn_registration.Text = "הרשמה";
+            labelBtn_registration.TextAlign = ContentAlignment.MiddleCenter;
+            labelBtn_registration.Click += labelBtn_registration_Click;
             // 
             // LoginForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 557);
-            Controls.Add(labelBtn_loginAsGuest);
+            Controls.Add(labelBtn_registration);
             Controls.Add(labelBtn_login);
             Controls.Add(materialTextBox_password);
             Controls.Add(materialLabel_password);
@@ -195,6 +195,6 @@
         private ReaLTaiizor.Controls.MaterialTextBoxEdit materialTextBox_password;
         private ReaLTaiizor.Controls.MaterialLabel materialLabel_password;
         private Label labelBtn_login;
-        private Label labelBtn_loginAsGuest;
+        private Label labelBtn_registration;
     }
 }

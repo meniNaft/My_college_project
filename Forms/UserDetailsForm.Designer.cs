@@ -44,6 +44,9 @@
             label_back = new Label();
             materialTextBox_hourly_wage = new ReaLTaiizor.Controls.MaterialTextBoxEdit();
             materialLabel_hourly_wage = new ReaLTaiizor.Controls.MaterialLabel();
+            materialTextBox_payment = new ReaLTaiizor.Controls.MaterialTextBoxEdit();
+            materialLabel_payment = new ReaLTaiizor.Controls.MaterialLabel();
+            labelBtn_payment = new Label();
             SuspendLayout();
             // 
             // labelBtn_update
@@ -52,14 +55,14 @@
             labelBtn_update.BackColor = Color.RoyalBlue;
             labelBtn_update.Font = new Font("Segoe UI", 18F);
             labelBtn_update.ForeColor = Color.White;
-            labelBtn_update.Location = new Point(437, 450);
+            labelBtn_update.Location = new Point(437, 426);
             labelBtn_update.MinimumSize = new Size(200, 40);
             labelBtn_update.Name = "labelBtn_update";
             labelBtn_update.Size = new Size(200, 41);
             labelBtn_update.TabIndex = 10;
             labelBtn_update.Text = "עדכון שינויים";
             labelBtn_update.TextAlign = ContentAlignment.MiddleCenter;
-            labelBtn_update.Click += labelBtn_login_Click;
+            labelBtn_update.Click += labelBtn_update_Click;
             // 
             // materialTextBox_phone
             // 
@@ -244,7 +247,7 @@
             materialTextBox_address.Font = new Font("Microsoft Sans Serif", 16F, FontStyle.Regular, GraphicsUnit.Pixel);
             materialTextBox_address.HideSelection = true;
             materialTextBox_address.LeadingIcon = null;
-            materialTextBox_address.Location = new Point(32, 443);
+            materialTextBox_address.Location = new Point(32, 419);
             materialTextBox_address.MaxLength = 32767;
             materialTextBox_address.MouseState = ReaLTaiizor.Helper.MaterialDrawHelper.MaterialMouseState.OUT;
             materialTextBox_address.Name = "materialTextBox_address";
@@ -269,7 +272,7 @@
             materialLabel_address.Depth = 0;
             materialLabel_address.Font = new Font("Roboto", 24F, FontStyle.Bold, GraphicsUnit.Pixel);
             materialLabel_address.FontType = ReaLTaiizor.Manager.MaterialSkinManager.FontType.H5;
-            materialLabel_address.Location = new Point(32, 398);
+            materialLabel_address.Location = new Point(32, 374);
             materialLabel_address.MouseState = ReaLTaiizor.Helper.MaterialDrawHelper.MaterialMouseState.HOVER;
             materialLabel_address.Name = "materialLabel_address";
             materialLabel_address.Size = new Size(55, 29);
@@ -282,10 +285,10 @@
             panel_courseList.BorderStyle = BorderStyle.Fixed3D;
             panel_courseList.Location = new Point(677, 174);
             panel_courseList.Name = "panel_courseList";
-            panel_courseList.Size = new Size(250, 398);
+            panel_courseList.Size = new Size(347, 398);
             panel_courseList.TabIndex = 17;
             panel_courseList.Visible = false;
-            //
+            // 
             // materialLabel_myCourses
             // 
             materialLabel_myCourses.AutoSize = true;
@@ -362,11 +365,72 @@
             materialLabel_hourly_wage.TextAlign = ContentAlignment.TopRight;
             materialLabel_hourly_wage.Visible = false;
             // 
+            // materialTextBox_payment
+            // 
+            materialTextBox_payment.AnimateReadOnly = false;
+            materialTextBox_payment.AutoCompleteMode = AutoCompleteMode.None;
+            materialTextBox_payment.AutoCompleteSource = AutoCompleteSource.None;
+            materialTextBox_payment.BackgroundImageLayout = ImageLayout.None;
+            materialTextBox_payment.CharacterCasing = CharacterCasing.Normal;
+            materialTextBox_payment.Depth = 0;
+            materialTextBox_payment.Enabled = false;
+            materialTextBox_payment.Font = new Font("Microsoft Sans Serif", 16F, FontStyle.Regular, GraphicsUnit.Pixel);
+            materialTextBox_payment.HideSelection = true;
+            materialTextBox_payment.LeadingIcon = null;
+            materialTextBox_payment.Location = new Point(32, 521);
+            materialTextBox_payment.MaxLength = 32767;
+            materialTextBox_payment.MouseState = ReaLTaiizor.Helper.MaterialDrawHelper.MaterialMouseState.OUT;
+            materialTextBox_payment.Name = "materialTextBox_payment";
+            materialTextBox_payment.PasswordChar = '\0';
+            materialTextBox_payment.PrefixSuffixText = null;
+            materialTextBox_payment.ReadOnly = false;
+            materialTextBox_payment.RightToLeft = RightToLeft.No;
+            materialTextBox_payment.SelectedText = "";
+            materialTextBox_payment.SelectionLength = 0;
+            materialTextBox_payment.SelectionStart = 0;
+            materialTextBox_payment.ShortcutsEnabled = true;
+            materialTextBox_payment.Size = new Size(343, 48);
+            materialTextBox_payment.TabIndex = 24;
+            materialTextBox_payment.TabStop = false;
+            materialTextBox_payment.TextAlign = HorizontalAlignment.Right;
+            materialTextBox_payment.TrailingIcon = null;
+            materialTextBox_payment.UseSystemPasswordChar = false;
+            // 
+            // materialLabel_payment
+            // 
+            materialLabel_payment.AutoSize = true;
+            materialLabel_payment.Depth = 0;
+            materialLabel_payment.Font = new Font("Roboto", 24F, FontStyle.Bold, GraphicsUnit.Pixel);
+            materialLabel_payment.FontType = ReaLTaiizor.Manager.MaterialSkinManager.FontType.H5;
+            materialLabel_payment.Location = new Point(32, 481);
+            materialLabel_payment.MouseState = ReaLTaiizor.Helper.MaterialDrawHelper.MaterialMouseState.HOVER;
+            materialLabel_payment.Name = "materialLabel_payment";
+            materialLabel_payment.Size = new Size(116, 29);
+            materialLabel_payment.TabIndex = 23;
+            materialLabel_payment.Text = "יתרה לתשלום";
+            // 
+            // labelBtn_payment
+            // 
+            labelBtn_payment.AutoSize = true;
+            labelBtn_payment.BackColor = Color.RoyalBlue;
+            labelBtn_payment.Font = new Font("Segoe UI", 18F);
+            labelBtn_payment.ForeColor = Color.White;
+            labelBtn_payment.Location = new Point(437, 528);
+            labelBtn_payment.MinimumSize = new Size(200, 40);
+            labelBtn_payment.Name = "labelBtn_payment";
+            labelBtn_payment.Size = new Size(200, 41);
+            labelBtn_payment.TabIndex = 22;
+            labelBtn_payment.Text = "בצע תשלום";
+            labelBtn_payment.TextAlign = ContentAlignment.MiddleCenter;
+            // 
             // UserDetailsForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(958, 557);
+            ClientSize = new Size(1126, 599);
+            Controls.Add(materialTextBox_payment);
+            Controls.Add(materialLabel_payment);
+            Controls.Add(labelBtn_payment);
             Controls.Add(materialTextBox_hourly_wage);
             Controls.Add(materialLabel_hourly_wage);
             Controls.Add(label_back);
@@ -409,5 +473,8 @@
         private Label label_back;
         private ReaLTaiizor.Controls.MaterialTextBoxEdit materialTextBox_hourly_wage;
         private ReaLTaiizor.Controls.MaterialLabel materialLabel_hourly_wage;
+        private ReaLTaiizor.Controls.MaterialTextBoxEdit materialTextBox_payment;
+        private ReaLTaiizor.Controls.MaterialLabel materialLabel_payment;
+        private Label labelBtn_payment;
     }
 }

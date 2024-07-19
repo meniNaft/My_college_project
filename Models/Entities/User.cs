@@ -17,7 +17,8 @@ namespace My_college_project.Models.Entities
         public string Password { get; set; }
         public string Phone { get; set; }
         public RoleEnum Role { get; set; }
-        public User(int id, string name, string address, string username, string password, string phone, RoleEnum role)
+        public double? AmountToPay{ get; set; }
+        public User(int id, string name, string address, string username, string password, string phone, RoleEnum role, double amountToPay)
         {
             Id = id;
             Name = name;
@@ -25,7 +26,8 @@ namespace My_college_project.Models.Entities
             Phone = phone;
             Username = username;
             Password = password;
-            Role = role;   
+            Role = role;
+            AmountToPay = amountToPay;
         }
 
         public User(DataRow row) {
@@ -36,7 +38,7 @@ namespace My_college_project.Models.Entities
            Username =  (string)row["password"];
            Password =  (string)row["phone"];
            Role = mapToRole((string)row["role_name"]);
-
+           AmountToPay = (double)row["amount_to_pay"];
         }
         private RoleEnum mapToRole(string roleName)
         {
