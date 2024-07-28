@@ -1,4 +1,5 @@
-﻿using My_college_project.Models;
+﻿using My_college_project.Forms.Components;
+using My_college_project.Models;
 using My_college_project.Models.Entities;
 using My_college_project.Models.Enums;
 using My_college_project.Services;
@@ -75,68 +76,9 @@ namespace My_college_project.Forms
                 int PanelHeight = 10; 
                 foreach (Course course in ManagerService.UserCourses)
                 {
-                    Panel panel_courseItem = new Panel
-                    {
-                        AutoScroll = true,
-                        BorderStyle = BorderStyle.Fixed3D,
-                        Name = "item",
-                        Size = new Size(300, 200),
-                        Location = new Point(10, PanelHeight),
-                        TabIndex = 17,
-                        Visible = true,
-                        RightToLeft = RightToLeft.Yes
-                    };
-                   
-                    PanelHeight += 200;
-                    Label lCourseName = new Label
-                    {
-                        Location = new Point(100, 10),
-                        Font = new Font("Arial", 12, FontStyle.Bold),
-                        Text = course.Name
-                    };
-                   
-                    Label lPrice = new Label {
-                        Font = new Font("Arial", 10, FontStyle.Bold),
-                        Text = $"מחיר: {course.Price}",
-                        Location = new Point(180, 50)
-                    };
-                    
-                    Label lSubjectsTitle = new Label
-                    {
-                        Font = new Font("Arial", 10, FontStyle.Bold),
-                        Text = "נושאים",
-                        Location = new Point(180, 70)
-                    };
-
-                    Label labelBtn_pay = new Label
-                    {
-                        AutoSize = true,
-                        BackColor = Color.RoyalBlue,
-                        Font = new Font("Segoe UI", 10F),
-                        ForeColor = Color.White,
-                        Location = new Point(50, 50),
-                        Name = "labelBtn_update",
-                        Size = new Size(80, 20),
-                        TabIndex = 10,
-                        Text = "תשלום",
-                        TextAlign = ContentAlignment.MiddleCenter,
-                        Tag = course,
-                    };
-                    labelBtn_pay.Click += PayPerCourse;
-                 
-
-
-                    int height = 100;
-                    panel_courseItem.Controls.AddRange([lCourseName, lPrice, lSubjectsTitle, labelBtn_pay]);
-                    foreach (var s in course.Subjects)
-                    {
-                        Label new_s = new Label();
-                        new_s.Location = new Point(180, height);
-                        new_s.Text = s.Name;
-                        height += 20;
-                        panel_courseItem.Controls.Add(new_s);
-                    }
+                    var panel_courseItem = GetCorsePanel.LoadCourseListItem(course, new Point(10, PanelHeight), PayPerCourse);
                     panel_courseList.Controls.Add(panel_courseItem);
+                    PanelHeight += 200;
                 }
             }
         }

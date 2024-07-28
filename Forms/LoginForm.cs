@@ -32,6 +32,7 @@ namespace My_college_project
                     if(ManagerService.User.Role == RoleEnum.ADMIN)
                     {
                         NavigationService.ShowForm(FormsEnum.MANAGEMENT_FORM);
+                        return;
                     }
                     NavigationService.ShowForm(FormsEnum.USER_DETAILS_FORM);
                 }

@@ -38,7 +38,7 @@ namespace My_college_project.Models.Entities
            Username =  (string)row["password"];
            Password =  (string)row["phone"];
            Role = mapToRole((string)row["role_name"]);
-           AmountToPay = (double)row["amount_to_pay"];
+           AmountToPay = row["amount_to_pay"] is double ? (double)row["amount_to_pay"]: null;
         }
         private RoleEnum mapToRole(string roleName)
         {
